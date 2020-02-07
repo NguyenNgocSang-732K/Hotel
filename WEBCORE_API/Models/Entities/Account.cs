@@ -7,8 +7,9 @@ namespace WEBCORE_API.Models.Entities
     {
         public Account()
         {
-            BookingIdCustomerNavigation = new HashSet<Booking>();
-            BookingIdEmpNavigation = new HashSet<Booking>();
+            Booking = new HashSet<Booking>();
+            OrdersIdCusNavigation = new HashSet<Orders>();
+            OrdersIdEmpNavigation = new HashSet<Orders>();
             Room = new HashSet<Room>();
         }
 
@@ -20,9 +21,9 @@ namespace WEBCORE_API.Models.Entities
         public string Address { get; set; }
         public int? Roles { get; set; }
 
-        public virtual Orders Orders { get; set; }
-        public virtual ICollection<Booking> BookingIdCustomerNavigation { get; set; }
-        public virtual ICollection<Booking> BookingIdEmpNavigation { get; set; }
+        public virtual ICollection<Booking> Booking { get; set; }
+        public virtual ICollection<Orders> OrdersIdCusNavigation { get; set; }
+        public virtual ICollection<Orders> OrdersIdEmpNavigation { get; set; }
         public virtual ICollection<Room> Room { get; set; }
     }
 }

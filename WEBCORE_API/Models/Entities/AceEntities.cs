@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WEBCORE_API.Models.Entities
 {
-    public partial class AceEntitie : DbContext
+    public partial class AceEntities : DbContext
     {
-        public AceEntitie()
+        public AceEntities()
         {
         }
 
-        public AceEntitie(DbContextOptions<AceEntitie> options)
+        public AceEntities(DbContextOptions<AceEntities> options)
             : base(options)
         {
         }
@@ -26,7 +26,6 @@ namespace WEBCORE_API.Models.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.;Database=Hotel;user id=sa;password=123456");
             }
         }
@@ -57,16 +56,6 @@ namespace WEBCORE_API.Models.Entities
                 entity.Property(e => e.RoomId).HasColumnName("RoomID");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
-
-                entity.HasOne(d => d.IdCustomerNavigation)
-                    .WithMany(p => p.BookingIdCustomerNavigation)
-                    .HasForeignKey(d => d.IdCustomer)
-                    .HasConstraintName("FK_Booking_Account2");
-
-                entity.HasOne(d => d.IdEmpNavigation)
-                    .WithMany(p => p.BookingIdEmpNavigation)
-                    .HasForeignKey(d => d.IdEmp)
-                    .HasConstraintName("FK_Booking_Account3");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.Booking)
@@ -101,21 +90,18 @@ namespace WEBCORE_API.Models.Entities
 
             modelBuilder.Entity<Orders>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.DateEnd).HasColumnType("datetime");
 
-                entity.Property(e => e.DtaeStart).HasColumnType("datetime");
+                entity.Property(e => e.DateStart).HasColumnType("datetime");
 
                 entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
 
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.Orders)
-                    .HasForeignKey<Orders>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_Account");
+                entity.HasOne(d => d.IdEmpNavigation)
+                    .WithMany(p => p.OrdersIdEmpNavigation)
+                    .HasForeignKey(d => d.IdEmp)
+                    .HasConstraintName("FK_Orders_Account1");
             });
 
             modelBuilder.Entity<Room>(entity =>

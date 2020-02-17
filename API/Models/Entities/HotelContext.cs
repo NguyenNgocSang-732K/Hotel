@@ -103,9 +103,14 @@ namespace API.Models.Entities
                 entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdCusNavigation)
-                    .WithMany(p => p.Orders)
+                    .WithMany(p => p.OrdersIdCusNavigation)
                     .HasForeignKey(d => d.IdCus)
                     .HasConstraintName("FK_Orders_Account");
+
+                entity.HasOne(d => d.IdEmpNavigation)
+                    .WithMany(p => p.OrdersIdEmpNavigation)
+                    .HasForeignKey(d => d.IdEmp)
+                    .HasConstraintName("FK_Orders_Account1");
 
                 entity.HasOne(d => d.IdRoomNavigation)
                     .WithMany(p => p.Orders)

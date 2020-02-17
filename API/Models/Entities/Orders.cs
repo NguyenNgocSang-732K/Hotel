@@ -20,6 +20,7 @@ namespace API.Models.Entities
         public decimal? Total { get; set; }
 
         public virtual Account IdCusNavigation { get; set; }
+        public virtual Account IdEmpNavigation { get; set; }
         public virtual Room IdRoomNavigation { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }

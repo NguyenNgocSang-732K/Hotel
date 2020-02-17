@@ -8,7 +8,8 @@ namespace API.Models.Entities
         public Account()
         {
             Booking = new HashSet<Booking>();
-            Orders = new HashSet<Orders>();
+            OrdersIdCusNavigation = new HashSet<Orders>();
+            OrdersIdEmpNavigation = new HashSet<Orders>();
             Room = new HashSet<Room>();
         }
 
@@ -21,7 +22,8 @@ namespace API.Models.Entities
         public int? Roles { get; set; }
 
         public virtual ICollection<Booking> Booking { get; set; }
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<Orders> OrdersIdCusNavigation { get; set; }
+        public virtual ICollection<Orders> OrdersIdEmpNavigation { get; set; }
         public virtual ICollection<Room> Room { get; set; }
     }
 }

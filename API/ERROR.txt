@@ -1,0 +1,5 @@
+﻿BadRequest:
+[
+1: Request xấu,
+2: Dữ liệu không hợp lệ
+]

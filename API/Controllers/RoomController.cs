@@ -40,6 +40,23 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("{start}/{end}")]
+        public async Task<IActionResult> Get(DateTime start, DateTime end)
+        {
+            try
+            {
+                var list = await db.Booking.AsNoTracking().Where(s => !(s.DateStart >= start || start <= s.DateStart || end >= s.DateEnd || end <= s.DateEnd || start <= s.DateStart || end >= s.DateEnd)).Select(s => new
+                {
+
+                }).ToListAsync();
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

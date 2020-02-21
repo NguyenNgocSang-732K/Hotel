@@ -8,6 +8,7 @@ using API.Models.Entities.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using API.Supports;
+using API.Models;
 
 namespace API.Controllers
 {
@@ -30,7 +31,8 @@ namespace API.Controllers
                 Name = s.Name,
                 Phone = s.Phone,
                 Address = s.Address,
-                Email = s.Email
+                Email = s.Email,
+                Role = s.Roles
             }).ToListAsync();
             return Ok(account);
         }
@@ -51,7 +53,8 @@ namespace API.Controllers
                     Name = s.Name,
                     Phone = s.Phone,
                     Address = s.Address,
-                    Email = s.Email
+                    Email = s.Email,
+                    Role = s.Roles
                 };
                 return Ok(account);
             }
@@ -61,7 +64,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] VMAccountCreate a)
         {
             try
@@ -85,7 +88,9 @@ namespace API.Controllers
                         Name = account.Name,
                         Phone = account.Phone,
                         Address = account.Address,
-                        Email = account.Email
+                        Email = account.Email,
+                        Role = account.Roles,
+                        Password = account.Password
                     });
                 }
                 return BadRequest("Dữ liệu không hợp lệ");
@@ -115,6 +120,7 @@ namespace API.Controllers
                         account.Email = a.Email;
                         account.Name = a.Name;
                         account.Password = a.Password;
+                        account.Roles = a.Role;
                         await db.SaveChangesAsync();
                         return Ok(new
                         {
@@ -122,7 +128,9 @@ namespace API.Controllers
                             Name = account.Name,
                             Phone = account.Phone,
                             Address = account.Address,
-                            Email = account.Email
+                            Email = account.Email,
+                            Role = account.Roles,
+                            Password = account.Password
                         });
                     }
                     else
@@ -158,15 +166,15 @@ namespace API.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody]Account acc)
         {
             try
             {
-                Account account = db.Account.Where(s => s.Email.ToLower() == email.ToLower()).SingleOrDefault();
+                Account account = await db.Account.Where(s => s.Email.ToLower() == acc.Email.ToLower()).SingleOrDefaultAsync();
                 if (account != null)
                 {
-                    if (MD5_Sang.VerifyMD5(password, account.Password))
+                    if (MD5_Sang.VerifyMD5(acc.Password, account.Password))
                     {
                         return Ok(new
                         {
@@ -174,7 +182,9 @@ namespace API.Controllers
                             Name = account.Name,
                             Phone = account.Phone,
                             Address = account.Address,
-                            Email = account.Email
+                            Email = account.Email,
+                            Role = account.Roles,
+                            Password = account.Password
                         });
                     }
                     else
@@ -192,5 +202,31 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
+        //[HttpPost("test")]
+        //public async Task<IActionResult> Test([FromHeader]int id)
+        //{
+        //    try
+        //    {
+        //        Account s = await db.Account.FindAsync(id);
+        //        if (s == null)
+        //        {
+        //            return NotFound("Không tìm thấy");
+        //        }
+        //        var account = new
+        //        {
+        //            Id = s.Id,
+        //            Name = s.Name,
+        //            Phone = s.Phone,
+        //            Address = s.Address,
+        //            Email = s.Email,
+        //            Role = s.Roles
+        //        };
+        //        return Ok(account);
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest("Sángggggggggggggg");
+        //    }
+        //}
     }
 }

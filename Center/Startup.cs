@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Center.Models.Entities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Center
 {
@@ -23,6 +24,12 @@ namespace Center
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/logout";
+                options.AccessDeniedPath = "/account/accessDenied";
+            });
             services.AddControllersWithViews();
             services.AddDbContext<AceEntities>(option => option.UseSqlServer(Configuration.GetConnectionString("ConnectCuaSang")));
         }
@@ -33,9 +40,10 @@ namespace Center
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
-
+            app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

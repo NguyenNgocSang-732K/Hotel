@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Models\ModelView\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <ItemGroup>

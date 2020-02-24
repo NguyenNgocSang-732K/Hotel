@@ -1,0 +1,27 @@
+﻿@model Center.Models.ModelView.AccountView  
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <form asp-controller="account" asp-action="login" method="post">
+        <table>
+            <tr>
+                <td></td>
+                <td>@ViewBag.Error</td>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" asp-for="Email" /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" asp-for="Password" /></td>
+            </tr>
+        </table>
+        <input type="submit" value="Login" />
+    </form>
+</body>
+</html>

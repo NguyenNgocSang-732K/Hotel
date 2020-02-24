@@ -17,7 +17,7 @@ namespace Center.Supports
         {
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(GetUserClaim(account), CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            httpContext.SignInAsync(claimsPrincipal);
+            httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
         }
 
         public static void Logout(HttpContext httpContext)

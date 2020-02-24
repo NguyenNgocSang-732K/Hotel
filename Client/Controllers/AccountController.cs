@@ -34,7 +34,7 @@ namespace Client.Controllers
             return View();
         }
 
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public IActionResult Logout()
         {
             SercurityManager.Logout(this.HttpContext);

@@ -105,7 +105,7 @@ namespace Center.Models.Dao
             {
                 db = new AceEntities();
                 string passHash = MD5_Sang.Encrypt(password);
-                Account acc = db.Account.SingleOrDefault(s => s.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && s.Password.Equals(passHash, StringComparison.OrdinalIgnoreCase));
+                Account acc = db.Account.SingleOrDefault(s => s.Email.Equals(email) && s.Password.Equals(passHash));
                 if (acc != null)
                 {
                     return new AccountView
@@ -121,7 +121,7 @@ namespace Center.Models.Dao
                 }
                 return null;
             }
-            catch
+            catch (Exception e)
             {
                 return null;
             }

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/LTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="~/LTE/dist/css/adminlte.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="~/css/stylengocsang.css" rel="stylesheet" />
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -20,7 +21,7 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <h4>@(TempData["error"])</h4>
+                <div class="error">@(TempData["error"])</div>
                 <form asp-controller="account" asp-action="login" method="post">
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" placeholder="Email" asp-for="Email">

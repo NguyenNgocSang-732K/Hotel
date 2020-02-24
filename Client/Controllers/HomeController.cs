@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Client.Models.DTO;
+using Client.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Client.Controllers
@@ -15,7 +16,7 @@ namespace Client.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-            var acc = AccountDTO.LoginAsync("nguyenngocsang0868@gmail.com", "123");
+            
             return View();
         }
     }

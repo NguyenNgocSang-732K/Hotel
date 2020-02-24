@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using API.Models.Entities;
-using API.Models.Entities.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using API.Supports;
@@ -22,7 +21,8 @@ namespace API.Controllers
             db = _db;
         }
 
-        [HttpGet]
+        [HttpGet("get")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Get()
         {
             var account = await db.Account.AsNoTracking().Select(s => new
@@ -31,13 +31,15 @@ namespace API.Controllers
                 Name = s.Name,
                 Phone = s.Phone,
                 Address = s.Address,
+                Password = s.Password,
                 Email = s.Email,
-                Role = s.Roles
+                Roles = s.Roles
             }).ToListAsync();
             return Ok(account);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -53,8 +55,9 @@ namespace API.Controllers
                     Name = s.Name,
                     Phone = s.Phone,
                     Address = s.Address,
+                    Password = s.Password,
                     Email = s.Email,
-                    Role = s.Roles
+                    Roles = s.Roles
                 };
                 return Ok(account);
             }
@@ -64,8 +67,10 @@ namespace API.Controllers
             }
         }
 
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] VMAccountCreate a)
+        public async Task<IActionResult> Create([FromBody]Account a)
         {
             try
             {
@@ -89,7 +94,7 @@ namespace API.Controllers
                         Phone = account.Phone,
                         Address = account.Address,
                         Email = account.Email,
-                        Role = account.Roles,
+                        Roles = account.Roles,
                         Password = account.Password
                     });
                 }
@@ -100,13 +105,14 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Modify(int id, [FromBody]VMAccountCreate a)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPut("modify")]
+        public async Task<IActionResult> Modify([FromBody]Account a)
         {
             try
             {
-                Account account = db.Account.Find(id);
+                Account account = db.Account.Find(a.Id);
                 if (account == null)
                 {
                     return NotFound("Không tìm thấy");
@@ -120,7 +126,7 @@ namespace API.Controllers
                         account.Email = a.Email;
                         account.Name = a.Name;
                         account.Password = a.Password;
-                        account.Roles = a.Role;
+                        account.Roles = a.Roles;
                         await db.SaveChangesAsync();
                         return Ok(new
                         {
@@ -129,7 +135,7 @@ namespace API.Controllers
                             Phone = account.Phone,
                             Address = account.Address,
                             Email = account.Email,
-                            Role = account.Roles,
+                            Roles = account.Roles,
                             Password = account.Password
                         });
                     }
@@ -144,7 +150,8 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpDelete("{remove}/{id}")]
         public async Task<IActionResult> Remove(int id)
         {
@@ -165,7 +172,8 @@ namespace API.Controllers
             }
         }
 
-
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]Account acc)
         {
@@ -183,7 +191,7 @@ namespace API.Controllers
                             Phone = account.Phone,
                             Address = account.Address,
                             Email = account.Email,
-                            Role = account.Roles,
+                            Roles = account.Roles,
                             Password = account.Password
                         });
                     }
@@ -202,31 +210,32 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-        //[HttpPost("test")]
-        //public async Task<IActionResult> Test([FromHeader]int id)
-        //{
-        //    try
-        //    {
-        //        Account s = await db.Account.FindAsync(id);
-        //        if (s == null)
-        //        {
-        //            return NotFound("Không tìm thấy");
-        //        }
-        //        var account = new
-        //        {
-        //            Id = s.Id,
-        //            Name = s.Name,
-        //            Phone = s.Phone,
-        //            Address = s.Address,
-        //            Email = s.Email,
-        //            Role = s.Roles
-        //        };
-        //        return Ok(account);
-        //    }
-        //    catch
-        //    {
-        //        return BadRequest("Sángggggggggggggg");
-        //    }
-        //}
+
+        [HttpPut("test")]
+        public async Task<IActionResult> Test([FromHeader]int id)
+        {
+            try
+            {
+                Account s = await db.Account.FindAsync(id);
+                if (s == null)
+                {
+                    return NotFound("Không tìm thấy");
+                }
+                var account = new
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Phone = s.Phone,
+                    Address = s.Address,
+                    Email = s.Email,
+                    Roles = s.Roles
+                };
+                return Ok(account);
+            }
+            catch
+            {
+                return BadRequest("Sángggggggggggggg");
+            }
+        }
     }
 }

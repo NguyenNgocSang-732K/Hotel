@@ -17,8 +17,8 @@ namespace API.Controllers
         {
             db = _db;
         }
-
-        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -42,8 +42,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create(List<OrderDetails> list)
         {
             try
@@ -52,7 +53,7 @@ namespace API.Controllers
                 {
                     db.OrderDetails.AddRange(list);
                     await db.SaveChangesAsync();
-                    return Ok();
+                    return Ok(list[0].OrderId);
                 }
                 return BadRequest("Dữ liệu không hợp lệ");
             }

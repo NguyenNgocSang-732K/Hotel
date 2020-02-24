@@ -18,8 +18,9 @@ namespace API.Controllers
         {
             db = _db;
         }
-
-        [HttpGet]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
             try
@@ -37,8 +38,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -57,8 +59,10 @@ namespace API.Controllers
             }
         }
 
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpPost]
-        public async Task<IActionResult> Create(Services sv)
+        public async Task<IActionResult> Create([FromBody]Services sv)
         {
             try
             {
@@ -66,7 +70,7 @@ namespace API.Controllers
                 {
                     db.Services.Add(sv);
                     await db.SaveChangesAsync();
-                    return Ok();
+                    return Ok(sv);
                 }
                 else
                 {
@@ -79,12 +83,14 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Modify(int id, [FromBody] Services sv)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPut("modify")]
+        public async Task<IActionResult> Modify([FromBody] Services sv)
         {
             try
             {
-                Services services = db.Services.Find(id);
+                Services services = db.Services.Find(sv.Id);
                 if (services == null)
                 {
                     return NotFound();
@@ -94,7 +100,7 @@ namespace API.Controllers
                     db.Services.Attach(services);
                     db.Entry(services).State = EntityState.Modified;
                     await db.SaveChangesAsync();
-                    return Ok();
+                    return Ok(sv);
                 }
                 else
                 {
@@ -107,7 +113,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("remove/{id}")]
         public async Task<IActionResult> Remove(int id)
         {
             try

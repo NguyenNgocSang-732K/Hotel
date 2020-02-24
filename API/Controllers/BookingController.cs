@@ -18,14 +18,15 @@ namespace API.Controllers
         {
             db = _db;
         }
-
-        [HttpGet]
+        [Consumes("application/json")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
             try
             {
                 var bookList = await db.Booking.AsNoTracking().Select(s => new
                 {
+                    Id = s.Id,
                     RoomName = s.Room.Name,
                     DateStart = s.DateStart,
                     DateEnd = s.DateEnd,
@@ -40,7 +41,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -52,6 +54,7 @@ namespace API.Controllers
                 }
                 var book = new
                 {
+                    Id = s.Id,
                     RoomName = s.Room.Name,
                     DateStart = s.DateStart,
                     DateEnd = s.DateEnd,
@@ -66,7 +69,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("modify/{id}")]
+        [Consumes("application/json")]
         public async Task<IActionResult> Modify(int id, [FromBody]int status)
         {
             try
@@ -79,7 +83,7 @@ namespace API.Controllers
                 }
                 b.Status = stt;
                 await db.SaveChangesAsync();
-                return Ok();
+                return Ok(b);
             }
             catch (Exception e)
             {
@@ -87,8 +91,10 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(Booking b)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody]Booking b)
         {
             try
             {
@@ -98,7 +104,7 @@ namespace API.Controllers
                     {
                         db.Booking.Add(b);
                         await db.SaveChangesAsync();
-                        return Ok();
+                        return Ok(b);
                     }
                     else
                     {

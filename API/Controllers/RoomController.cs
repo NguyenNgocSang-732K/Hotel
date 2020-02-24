@@ -19,7 +19,9 @@ namespace API.Controllers
             db = _db;
         }
 
-        [HttpGet]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
             try
@@ -39,8 +41,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpGet("{start}/{end}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpGet("get/{start}/{end}")]
         public async Task<IActionResult> Get(DateTime start, DateTime end)
         {
             try
@@ -57,7 +60,9 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -85,7 +90,9 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody]Room r)
         {
             try
@@ -94,7 +101,7 @@ namespace API.Controllers
                 {
                     db.Room.Add(r);
                     await db.SaveChangesAsync();
-                    return Ok();
+                    return Ok(r);
                 }
                 return BadRequest("Dữ liệu không hợp lệ");
             }
@@ -104,12 +111,14 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Modify(int id, [FromBody]Room r)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPut("modify")]
+        public async Task<IActionResult> Modify([FromBody]Room r)
         {
             try
             {
-                Room room = db.Room.Find(id);
+                Room room = db.Room.Find(r.Id);
                 if (!ModelState.IsValid)
                 {
                     return BadRequest("Dữ liệu không hợp lệ");
@@ -121,7 +130,7 @@ namespace API.Controllers
                 db.Room.Attach(r);
                 db.Entry(r).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return Ok();
+                return Ok(r);
 
             }
             catch (Exception e)
@@ -129,8 +138,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpDelete("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpDelete("remove/{id}")]
         public async Task<IActionResult> Remove(int id)
         {
             try

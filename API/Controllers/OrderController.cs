@@ -18,7 +18,8 @@ namespace API.Controllers
             db = _db;
         }
 
-        [HttpGet]
+        [Consumes("application/json")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
             try
@@ -45,7 +46,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -71,8 +73,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpPost]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Orders o)
         {
             try
@@ -81,7 +84,7 @@ namespace API.Controllers
                 {
                     db.Orders.Add(o);
                     await db.SaveChangesAsync();
-                    return Ok();
+                    return Ok(o);
                 }
                 return BadRequest("Dữ liệu không hợp lệ");
             }

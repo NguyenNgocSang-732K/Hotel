@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using Center.Models.ModelView;
+using System;
+using Microsoft.AspNetCore.Authorization;
+using Center.Models.Dao;
 
 namespace Center.Controllers
 {
@@ -15,7 +14,6 @@ namespace Center.Controllers
         [Route("index")]
         public IActionResult Index()
         {
-
             return View();
         }
     }

@@ -6,7 +6,6 @@ using Center.Models.Dao;
 using Center.Models.ModelView;
 using Center.Supports;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Center.Controllers
 {
@@ -27,7 +26,7 @@ namespace Center.Controllers
             if (accountView != null)
             {
                 SercurityManager.Login(this.HttpContext, accountView);
-                return RedirectToAction("index", "home");
+                return RedirectToAction("index", "home"); // Chỗ quan trọng: bắt buộc return Redirect để refresh lại trang (refresh lại httpContext, nó mới nhận được cookie, nhiều người chỉ để return View() => ko nhận được cookie)
             }
             else
             {

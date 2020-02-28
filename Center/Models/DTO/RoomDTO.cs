@@ -94,5 +94,22 @@ namespace Center.Models.Dao
                 return false;
             }
         }
+
+
+        public static List<RoomView> SearchRoom(DateTime start, DateTime end)
+        {
+            db = new AceEntities();
+            var list = db.Room.Where(s => s.Booking.Count(b =>
+                (start >= b.DateStart && (start <= b.DateEnd || end <= b.DateEnd)) || (start <= b.DateStart && end >= b.DateStart)) == 0
+            ).Select(s => new RoomView
+            {
+                EmpID = (int)s.IdEmp,
+                EmpName = s.IdEmpNavigation.Name,
+                Name = s.Name.ToString(),
+                Id = s.Id,
+                Price = (decimal)s.Price
+            }).ToList();
+            return list;
+        }
     }
 }

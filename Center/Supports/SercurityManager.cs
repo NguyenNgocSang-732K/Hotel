@@ -25,12 +25,13 @@ namespace Center.Supports
             httpContext.SignOutAsync();
         }
 
-        private static IEnumerable<Claim> GetUserClaim(AccountView account)
+        private static IEnumerable<Claim> GetUserClaim(AccountView account) //ghi những thông tin cần thiết sẽ được lưu vào claims cookie
         {
             List<Claim> list = new List<Claim>();
-            list.Add(new Claim(ClaimTypes.Name, account.Name));
-            list.Add(new Claim(ClaimTypes.Email, account.Email));
-            list.Add(new Claim(ClaimTypes.Role, account.Role + ""));
+            list.Add(new Claim(ClaimTypes.Name  , account.Name));
+            list.Add(new Claim(ClaimTypes.Email , account.Email));
+            list.Add(new Claim(ClaimTypes.Role  , account.Role + "")); // quan trọng quyền
+            list.Add(new Claim("My_Property"    , account.Phone));// Tự thêm thuộc tính
             return list;
         }
     }

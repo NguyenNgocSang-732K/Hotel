@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +21,13 @@ namespace Center
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
-                options.LoginPath = "/account/login";
+                options.LoginPath = "/account/login"; // Truy cập link khi chưa đăng nhập sẽ trở ra trang này
                 options.LogoutPath = "/account/logout";
-                options.AccessDeniedPath = "/account/accessDenied";
+                options.AccessDeniedPath = "/account/accessDenied"; //Truy cập link ko đủ quyền sẽ trở ra trang này
+                options.Cookie.Name = "CookieCuaNguyenNgocSang";
             });
             services.AddControllersWithViews();
-            services.AddDbContext<AceEntities>(option => option.UseSqlServer(Configuration.GetConnectionString("ConnectCuaSang")));
+            services.AddDbContext<AceEntities>(option => option.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("ConnectCuaSang")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,8 +38,8 @@ namespace Center
             }
             app.UseRouting();
             app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthentication(); //Xác nhận đã đăng nhập
+            app.UseAuthorization(); // Xác nhận đủ quyền truy cập
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

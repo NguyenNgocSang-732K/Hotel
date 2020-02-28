@@ -48,10 +48,17 @@ namespace API.Controllers
         {
             try
             {
-                var list = await db.Booking.AsNoTracking().Where(s => !(s.DateStart >= start || start <= s.DateStart || end >= s.DateEnd || end <= s.DateEnd || start <= s.DateStart || end >= s.DateEnd)).Select(s => new
-                {
-
-                }).ToListAsync();
+                //DateTime start = starts.AddDays(1);
+                //DateTime end = ends.AddDays(1);
+                var list = await db.Room.Where(s => s.Booking.Count(b =>
+                (start >= b.DateStart && (start <= b.DateEnd || end <= b.DateEnd)) || (start <= b.DateStart && end >= b.DateStart)) == 0
+            ).Select(s => new
+            {
+                EmpName = s.IdEmpNavigation.Name,
+                Name = s.Name.ToString(),
+                Id = s.Id,
+                Price = (decimal)s.Price
+            }).ToListAsync();
                 return Ok(list);
             }
             catch (Exception e)

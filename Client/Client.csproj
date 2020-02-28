@@ -6,7 +6,31 @@
 
   <ItemGroup>
     <Folder Include="Models\ModelView\" />
-    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\bootstrap.css.map" />
+    <None Include="wwwroot\fonts\.DS_Store" />
+    <None Include="wwwroot\fonts\fontawesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\fonts\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\fonts\ionicons\.DS_Store" />
+    <None Include="wwwroot\fonts\ionicons\fonts\ionicons.svg" />
+    <None Include="wwwroot\images\.DS_Store" />
+    <None Include="wwwroot\js\.DS_Store" />
+    <None Include="wwwroot\js\aos.js" />
+    <None Include="wwwroot\js\bootstrap-datepicker.js" />
+    <None Include="wwwroot\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\js\jquery-migrate-3.0.1.min.js" />
+    <None Include="wwwroot\js\jquery.fancybox.min.js" />
+    <None Include="wwwroot\js\jquery.magnific-popup.min.js" />
+    <None Include="wwwroot\js\jquery.stellar.min.js" />
+    <None Include="wwwroot\js\jquery.timepicker.min.js" />
+    <None Include="wwwroot\js\jquery.validate.min.js" />
+    <None Include="wwwroot\js\jquery.waypoints.min.js" />
+    <None Include="wwwroot\js\main.js" />
+    <None Include="wwwroot\js\owl.carousel.min.js" />
+    <None Include="wwwroot\js\popper.min.js" />
   </ItemGroup>
 
   <ItemGroup>

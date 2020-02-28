@@ -19,5 +19,12 @@ namespace Client.Controllers
             
             return View();
         }
+
+        [Route("searchroom")]
+        public IActionResult Searchroom()
+        {
+
+            return View();
+        }
     }
 }
